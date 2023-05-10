@@ -1,26 +1,33 @@
-%{
-#include<stdio.h>
-int lc=0,sc=0,tc=0,ch=0,wc=0;        // GLOBAL VARIABLES
-%}
- 
-// RULE SECTION
-%%
-[\n] { lc++; ch+=yyleng;}
-[  \t] { sc++; ch+=yyleng;}
-[^\t] { tc++; ch+=yyleng;}
-[^\t\n ]+ { wc++;  ch+=yyleng;} 
-%%
- 
-int yywrap(){ return 1;    }
-/*        After inputting press ctrl+d         */
- 
-// MAIN FUNCTION
-int main(){
-    printf("Enter the Sentence : ");
-    yylex();
-    printf("Number of lines : %d\n",lc);
-    printf("Number of spaces : %d\n",sc);
-    printf("Number of tabs, words, charc : %d , %d , %d\n",tc,wc,ch);
-     
-    return 0;
-}
+#include <stdio.h>
+int main()
+{
+    char str[100];//input string with size 100
+
+    int words=0,newline=0,characters=0; // counter variables
+
+    scanf("%[^~]",&str);//scanf formatting    
+
+    for(int i=0;str[i]!='\0';i++)
+     { 
+         if(str[i] == ' ')
+         { 
+              words++;
+         }
+         else if(str[i] == '\n')
+         {
+             newline++;
+              words++;//since with every next line new words start. corner case 1
+         }
+         else if(str[i] != ' ' && str[i] != '\n'){
+         characters++;
+         }
+     }
+    if(characters > 0)//Corner case 2,3.
+    {
+        words++;
+        newline++;
+    }
+     printf("Total number of words : %d\n",words);
+     printf("Total number of lines : %d\n",newline);
+     printf("Total number of characters : %d\n",characters);
+    return
